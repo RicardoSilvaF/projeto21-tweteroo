@@ -1,7 +1,8 @@
-import { Controller, Get, Post, HttpCode, Body } from '@nestjs/common';
+import { Controller, Get, Post, HttpCode, Body, Query, ParseIntPipe} from '@nestjs/common';
 import { AppService } from './app.service';
 import { UserDto } from './dtos/user.dto';
 import { TweetDto } from './dtos/tweet.dto';
+
 
 @Controller()
 export class AppController {
@@ -22,5 +23,11 @@ export class AppController {
   @HttpCode(201)
   postTweets(@Body() NewTweet: TweetDto) {
     return this.appService.postTweets(NewTweet);
+  }
+
+  @Get('tweets')
+  getTweets(@Query('page') page: number ) {
+    const tweets = this.appService.getTweets(page);
+    return tweets;
   }
 }
