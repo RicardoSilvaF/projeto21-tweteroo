@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, HttpCode, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { UserDto } from './dtos/user.dto';
 
 @Controller()
 export class AppController {
@@ -8,5 +9,11 @@ export class AppController {
   @Get()
   getHealth(): string {
     return this.appService.getHealth();
+  }
+
+  @Post('sign-up')
+  @HttpCode(200)
+  postSignup(@Body() NewUser: UserDto) {
+    return this.appService.postSignup(NewUser);
   }
 }
