@@ -26,7 +26,7 @@ export class AppService {
       throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
     }
 
-    const createTweet = new Tweet(userCheck , NewTweet.tweet);
+    const createTweet = new Tweet(userCheck, NewTweet.tweet);
     this.tweets.push(createTweet);
   };
 
@@ -47,9 +47,19 @@ export class AppService {
     const startIndex = (page - 1) * perPage;
     const endIndex = startIndex + perPage;
     const pagedTweets = transformedTweets.slice(startIndex, endIndex);
-    
-    console.log(pagedTweets)
+
     return pagedTweets
-    
+  }
+
+  getUserTweets(username: string) {
+    const filteredTweets = this.tweets
+      .filter((tweet) => tweet.getUser().getUsername() === username)
+      .map((tweet) => ({
+        username: tweet.getUser().getUsername(),
+        avatar: tweet.getUser().getAvatar(),
+        tweet: tweet.getTweet(),
+      }));
+
+    return filteredTweets;
   }
 }
